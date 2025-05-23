@@ -1,0 +1,67 @@
+# Índice Sequencial de Palavras
+
+Este projeto implementa um sistema inovador de numeração sequencial para palavras em textos, criado especificamente para facilitar o treinamento de IA de forma simples e direta.
+
+## Por que Numeração Sequencial?
+
+A numeração sequencial é fundamental para o treinamento de IA porque:
+
+1. **Contexto Implícito**
+   - Cada número representa uma posição única no texto
+   - A sequência numérica (0,1, 0,2, etc.) já estabelece relações entre palavras
+   - A IA aprende através da ordem natural das palavras
+
+2. **Diferenciação Automática**
+   - Mesma palavra em diferentes contextos recebe números diferentes
+   - Exemplo: "O"=0,0 e "O"=0,4 são tratados como diferentes ocorrências
+   - A IA entende que palavras com números diferentes têm contextos diferentes
+
+3. **Simplicidade e Eficiência**
+   - Não precisa de análise sintática complexa
+   - Não requer embeddings multidimensionais
+   - O sistema é direto e objetivo
+
+## Características
+
+- Numeração sequencial única para cada palavra
+- Preservação natural do contexto através da ordem
+- Diferenciação automática de ocorrências
+- Sistema simples e eficiente
+
+## Como usar
+
+1. Instale as dependências:
+```bash
+pip install -r requirements.txt
+```
+
+2. Execute o exemplo:
+```bash
+python indice_sequencial.py
+```
+
+## Exemplo
+
+Para o texto: "O Sol é amarelo."
+- "O" recebe 0.1
+- "sol" recebe 0.2
+- "é" recebe 0.3
+- "amarelo" recebe 0.4
+
+Para o parágrafo: "O Sol é Amarelo. O Sol queima a pele. O Sol é brilhante."
+- "O" recebe 0.1, 0.5, 0.10
+- "sol" recebe 0.2, 0.6, 0.11
+- "é" recebe 0.3, 0.12
+- "amarelo" recebe 0.4
+- "queima" recebe 0.7
+- "a" recebe 0.8
+- "pele" recebe 0.9
+- "brilhante" recebe 0.13
+
+## Benefícios
+
+- Contexto implícito através da numeração
+- Diferenciação automática de ocorrências
+- Sistema simples e eficiente
+- Fácil de implementar e entender
+- Base sólida para treinamento de IA

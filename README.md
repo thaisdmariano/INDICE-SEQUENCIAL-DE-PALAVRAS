@@ -49,14 +49,43 @@ Para o texto: "O Sol é amarelo."
 - "amarelo" recebe 0.4
 
 Para o parágrafo: "O Sol é Amarelo. O Sol queima a pele. O Sol é brilhante."
-- "O" recebe 0.1, 0.5, 0.10
-- "sol" recebe 0.2, 0.6, 0.11
-- "é" recebe 0.3, 0.12
+- "O" recebe as variações: 0.1, 0.5, 0.10
+- "sol" recebe as variações: 0.2, 0.6, 0.11
+- "é" recebe as varições: 0.3, 0.12
 - "amarelo" recebe 0.4
 - "queima" recebe 0.7
 - "a" recebe 0.8
 - "pele" recebe 0.9
 - "brilhante" recebe 0.13
+
+O quê pode ser representado como:
+-O
+0.1
+Sol
+0.2
+é
+0.3
+amarelo
+0.4
+O
+0.5
+Sol
+0.6
+queima
+0.7
+a
+0.8
+pele
+0.9
+O
+0.10
+Sol
+0.11
+é
+0.12
+brilhante.
+
+Assim a máquina consegue fazer as diferenciações de contexto, sem o uso de cálculos vetoriais como aqueles presentes nos Embbendings.
 
 ## Benefícios
 
@@ -65,3 +94,14 @@ Para o parágrafo: "O Sol é Amarelo. O Sol queima a pele. O Sol é brilhante."
 - Sistema simples e eficiente
 - Fácil de implementar e entender
 - Base sólida para treinamento de IA
+
+## Site oficial:
+
+https://tokenizador666.my.canva.site/indicesequencialdepalavras
+
+#Aplicativo:
+
+https://indice-sequencial-de-palavras-da-lux.streamlit.app/
+
+
+

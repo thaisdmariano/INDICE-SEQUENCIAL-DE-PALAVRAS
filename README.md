@@ -59,7 +59,7 @@ Para o parágrafo: "O Sol é Amarelo. O Sol queima a pele. O Sol é brilhante."
 - "brilhante" recebe 0.13
 
 O quê pode ser representado como:
--O
+- O
 0.1
 Sol
 0.2

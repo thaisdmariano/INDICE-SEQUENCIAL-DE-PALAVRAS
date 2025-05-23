@@ -1,6 +1,8 @@
 import json
 import os
+import re
 from typing import Dict, List, Optional
+from unidecode import unidecode
 
 class IndiceSequencial:
     def __init__(self, arquivo_indice: str = 'indice_sequencial.json'):
@@ -29,6 +31,18 @@ class IndiceSequencial:
         
         return hist_id
     
+    def _limpar_texto(self, texto: str) -> str:
+        """
+        Limpa o texto removendo pontuações e acentos, mantendo apenas letras e espaços
+        """
+        # Remove pontuações mantendo espaços
+        texto = re.sub(r'[.,!?;:]', ' ', texto)
+        # Remove múltiplos espaços
+        texto = re.sub(r'\s+', ' ', texto)
+        # Remove acentos
+        texto = unidecode(texto)
+        return texto.strip()
+
     def _tokenizar_texto(self, texto, hist_id):
         """
         Divide o texto em palavras, mantendo pontuação como tokens separados
@@ -42,8 +56,8 @@ class IndiceSequencial:
             Dicionário com 'tokens' (dicionário formatado) e 'total' (quantidade de tokens)
         """
         import re
-        # Adiciona espaços antes e depois de pontuação
-        texto = re.sub(r'([.,!?;:])', r' \1 ', texto)
+        # Limpa o texto
+        texto = self._limpar_texto(texto)
         # Remove múltiplos espaços e divide
         palavras = [t.strip() for t in texto.split() if t.strip()]
         
@@ -211,4 +225,5 @@ if __name__ == "__main__":
     # Mostra o JSON gerado
     print("\nVersão JSON:")
     print(json.dumps(indice.historias[hist_id], ensure_ascii=False, indent=2))
+
 

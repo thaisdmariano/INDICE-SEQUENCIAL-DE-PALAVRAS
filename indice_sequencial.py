@@ -111,16 +111,6 @@ class IndiceSequencial:
         except (FileNotFoundError, json.JSONDecodeError):
             # Se o arquivo não existir ou tiver erro, cria um novo
             self.historias = {}
-                        precisa_reorganizar = True
-                        break
-                        
-                if precisa_reorganizar:
-                    self._reorganizar_ids()
-                    
-            except (json.JSONDecodeError, AttributeError):
-                # Se o arquivo estiver corrompido, começa com um dicionário vazio
-                self.historias = {}
-                self._salvar_indice()
     
     def obter_historia_formatada(self, hist_id: str) -> str:
         """
@@ -221,3 +211,4 @@ if __name__ == "__main__":
     # Mostra o JSON gerado
     print("\nVersão JSON:")
     print(json.dumps(indice.historias[hist_id], ensure_ascii=False, indent=2))
+

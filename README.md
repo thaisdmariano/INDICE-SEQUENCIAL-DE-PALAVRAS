@@ -124,8 +124,8 @@ https://indice-sequencial-de-palavras-da-lux.streamlit.app/
 
 ## Recursos:
 
-CANVAS & CASCADE
-PYTHON 
+CANVAS CASCADE
+PYTHON & 
 JSON
 
 

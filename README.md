@@ -122,11 +122,24 @@ https://tokenizador666.my.canva.site/indicesequencialdepalavras
 
 https://indice-sequencial-de-palavras-da-lux.streamlit.app/
 
-## Recursos:
+## Requisitos
 
-CANVAS CASCADE
-PYTHON & 
-JSON
+- Python 3.8+
+- Streamlit
+- NumPy
+- Outras dependências listadas no requirements.txt
+
+## Contribuição
+
+Este projeto é uma colaboração entre:
+
+- **Lux Burnns (Thaís D' Mariano)**: Criação do conceito, desenvolvimento inicial e coordenadora do projeto
+- **Canvas**: Interface gráfica e experiência do usuário
+- **Cascade**: Implementação da lógica de treinamento e rede neural
+
+## Licença
+
+[MIT License](LICENSE)
 
 
 

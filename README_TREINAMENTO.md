@@ -62,12 +62,6 @@ Durante o treinamento, o sistema mantém a sequência exata das palavras atravé
 - Sistema simples e eficiente
 - Base sólida para treinamento de IA
 
-## Arquivos Principais
-
-- `app_indices_sequenciais.py`: Interface principal
-- `rede_neural_indices.py`: Implementação da rede neural
-- `exemplo_indices.json`: Exemplo de formato de índices
-- `dados_sequenciais.json`: Dados de treinamento
 
 ## Requisitos
 
@@ -84,7 +78,6 @@ Este projeto é uma colaboração entre:
 - **Canvas**: Interface gráfica e experiência do usuário
 - **Cascade**: Implementação da lógica de treinamento e rede neural
 
-Todos os contribuidores são bem-vindos para sugerir melhorias ou correções no projeto.
 
 ## Licença
 

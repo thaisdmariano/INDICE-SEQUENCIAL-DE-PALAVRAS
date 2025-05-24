@@ -122,5 +122,11 @@ https://tokenizador666.my.canva.site/indicesequencialdepalavras
 
 https://indice-sequencial-de-palavras-da-lux.streamlit.app/
 
+## Recursos:
+
+CANVAS & CASCADE
+PYTHON 
+JSON
+
 
 

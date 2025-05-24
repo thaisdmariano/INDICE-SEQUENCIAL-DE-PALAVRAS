@@ -118,7 +118,7 @@ Assim a máquina consegue fazer as diferenciações de contexto, sem o uso de c�
 
 https://tokenizador666.my.canva.site/indicesequencialdepalavras
 
-#Aplicativo:
+## Aplicativo:
 
 https://indice-sequencial-de-palavras-da-lux.streamlit.app/
 

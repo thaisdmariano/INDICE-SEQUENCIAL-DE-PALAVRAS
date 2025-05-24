@@ -4,10 +4,10 @@ Este projeto revoluciona o treinamento de IA através de um sistema inovador de 
 
 ## Por que é Revolucionário?
 
-1. **Simplicidade Radical**
-   - Não usa embeddings multidimensionais complexos
-   - Não precisa dividir em perguntas e respostas
-   - A IA aprende através da sequência natural dos números
+1. **Aprendizado Natural**
+   - A IA aprende tal como um humano aprende a ler
+   - Não precisa de rótulos artificiais ou embeddings complexos
+   - Aprende através da ordem natural das palavras
 
 2. **Contexto Implícito**
    - Cada número representa uma posição única
@@ -16,7 +16,7 @@ Este projeto revoluciona o treinamento de IA através de um sistema inovador de 
 
 3. **Diferenciação Automática**
    - Mesma palavra em diferentes contextos recebe números diferentes
-   - Exemplo: "O"=0,0 e "O"=0,4 são tratados como diferentes ocorrências quando aplicados a mesma frase
+   - Exemplo: "O"=0,0 e "O"=0,4 são tratados como diferentes ocorrências
    - A IA entende que palavras com números diferentes têm contextos diferentes
 
 4. **Eficiência e Escalabilidade**
@@ -33,7 +33,7 @@ A numeração sequencial é fundamental para o treinamento de IA porque:
    - A sequência numérica (0,1, 0,2, etc.) já estabelece relações entre palavras
    - A IA aprende através da ordem natural das palavras
 
-2. **Simplicidade e Eficiência**
+2.  **Simplicidade e Eficiência**
    - Não precisa de análise sintática complexa
    - Não requer embeddings multidimensionais
    - O sistema é direto e objetivo
@@ -66,14 +66,14 @@ Para o texto: "O Sol é amarelo."
 - "amarelo" recebe 0.4
 
 Para o parágrafo: "O Sol é Amarelo. O Sol queima a pele. O Sol é brilhante."
-- "O" recebe as variações 0.1, 0.5, 0.10
-- "sol" recebe as variações 0.2, 0.6, 0.11
-- "é" recebe as variações 0.3, 0.12
-- "amarelo" recebe a marcação 0.4
-- "queima" recebe a marcação 0.7
-- "a" recebe a marcação 0.8
-- "pele" recebe a marcação 0.9
-- "brilhante" recebea marcação 0.13
+- "O" recebe 0.1, 0.5, 0.10
+- "sol" recebe 0.2, 0.6, 0.11
+- "é" recebe 0.3, 0.12
+- "amarelo" recebe 0.4
+- "queima" recebe 0.7
+- "a" recebe 0.8
+- "pele" recebe 0.9
+- "brilhante" recebe 0.12
 
 O quê pode ser representado como:
 - O
@@ -111,6 +111,7 @@ Assim a máquina consegue fazer as diferenciações de contexto, sem o uso de c�
 - Sistema simples e eficiente
 - Fácil de implementar e entender
 - Base sólida para treinamento de IA
+
 
 
 ## Site oficial:

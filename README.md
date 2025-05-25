@@ -137,6 +137,19 @@ Este projeto é uma colaboração entre:
 - **Canvas**: Interface gráfica e experiência do usuário
 - **Cascade**: Implementação da lógica de treinamento e rede neural
 
+
+## Licença
+
+Este projeto está licenciado sob a GNU Affero General Public License (AGPL) versão 3.0.
+
+A AGPL v3.0 oferece proteção adicional comparada à GPL, especialmente para aplicações web e serviços online:
+
+- **Proteção Adicional**: Garante que qualquer modificação em serviços online seja compartilhada
+- **Controle Total**: Você mantém o controle sobre o código e suas modificações
+- **Proteção contra Serviços**: Impede que serviços online usem seu código sem compartilhar as modificações
+- **Transparência**: Garante que qualquer alteração em serviços online seja disponibilizada ao público
+
+Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 ## Licença
 
 [MIT License](LICENSE)

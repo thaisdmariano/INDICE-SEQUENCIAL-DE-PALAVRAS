@@ -149,10 +149,5 @@ A AGPL v3.0 oferece proteção adicional comparada à GPL, especialmente para ap
 - **Proteção contra Serviços**: Impede que serviços online usem seu código sem compartilhar as modificações
 - **Transparência**: Garante que qualquer alteração em serviços online seja disponibilizada ao público
 
-Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-## Licença
-
-[MIT License](LICENSE)
-
 
 

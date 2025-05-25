@@ -1,233 +1,228 @@
-import streamlit as st
-from indice_sequencial import IndiceSequencial
-import os
-from collections import defaultdict
 import json
-from typing import Optional
+import os
+import re
+from typing import Dict, List, Optional
+from unidecode import unidecode
 
-# Inicializa o índice e estados da sessão
-if 'indice' not in st.session_state:
-    st.session_state.indice = IndiceSequencial()
-    st.session_state.editando = False
-    st.session_state.historia_editando = None
+class IndiceSequencial:
+    def __init__(self, arquivo_indice: str = 'indice_sequencial.json'):
+        self.arquivo_indice = arquivo_indice
+        self.historias: Dict[str, dict] = {}
+        self._carregar_indice()
+    
+    def adicionar_historia(self, titulo: str, texto: str) -> str:
+        """Adiciona uma nova história ao índice"""
+        # Gera um ID sequencial
+        hist_id = str(len(self.historias))
+        
+        # Tokeniza o texto
+        resultado_tokenizacao = self._tokenizar_texto(texto, hist_id)
+        
+        # Cria o dicionário com a ordem correta dos campos
+        self.historias[hist_id] = {
+            'índice': hist_id,
+            'Nome': titulo.strip(),
+            'total_tokens': resultado_tokenizacao['total'],
+            'Tokens individuais': resultado_tokenizacao['tokens']
+        }
+        
+        # Salva a história
+        self._salvar_indice()
+        
+        return hist_id
+    
+    def _limpar_texto(self, texto: str) -> str:
+        """
+        Limpa o texto mantendo pontuação e caracteres especiais
+        """
+        # Remove quebras de linha e tabulações
+        texto = re.sub(r'[\n\r\t]+', ' ', texto)
+        # Remove múltiplos espaços
+        texto = re.sub(r'\s+', ' ', texto)
+        # Mantém pontuação e caracteres especiais
+        texto = re.sub(r'\"', '"', texto)  # Normaliza aspas duplas
+        return texto.strip()
 
-    # Adiciona uma história de exemplo se for a primeira execução
-    if not st.session_state.indice.historias:
-        texto_exemplo = """Era uma vez um reino distante onde a magia era real e os dragões voavam pelos céus.
-        Neste reino, vivia um jovem aprendiz de mago que sonhava em se tornar o maior feiticeiro de todos os tempos."""
-        st.session_state.indice.adicionar_historia("O Aprendiz de Mago", texto_exemplo)
-
-# Interface
-st.set_page_config(page_title="Índice Sequencial de Palavras", page_icon="🔢", layout="wide")
-st.title("🔢 Índice Sequencial de Palavras")
-
-
-def mostrar_formulario_historia(titulo_form: str, titulo: str = "", texto: str = "", botao: str = "Salvar",
-                                hist_id: str = None):
-    """Mostra o formulário para adicionar/editar uma história"""
-    with st.form(f"form_{hist_id if hist_id else 'nova'}"):
-        st.subheader(titulo_form)
-        novo_titulo = st.text_input("Título da História", value=titulo)
-        novo_texto = st.text_area("Texto da História", value=texto, height=200,
-                                  help="Use linhas em branco para separar parágrafos")
-
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            if st.form_submit_button(botao):
-                if novo_titulo and novo_texto:
-                    if hist_id:  # Editando
-                        if st.session_state.indice.atualizar_historia(hist_id, novo_titulo, novo_texto):
-                            st.success("História atualizada com sucesso!")
-                            st.session_state.editando = False
-                            st.session_state.historia_editando = None
-                            st.rerun()
-                        else:
-                            st.error("Erro ao atualizar a história")
-                    else:  # Nova história
-                        hist_id = st.session_state.indice.adicionar_historia(novo_titulo, novo_texto)
-                        st.success(f"História salva!")
-                        st.rerun()
-                else:
-                    st.error("Preencha todos os campos")
-
-        with col2:
-            if st.form_submit_button("Cancelar"):
-                st.session_state.editando = False
-                st.session_state.historia_editando = None
-                st.rerun()
-
-
-# Sidebar para adicionar/editar histórias
-if st.session_state.editando:
-    hist = st.session_state.indice.obter_historia_para_edicao(st.session_state.historia_editando)
-    if hist:
-        mostrar_formulario_historia(
-            "✏️ Editar História",
-            hist['titulo'],
-            hist['texto'],
-            "Atualizar História",
-            st.session_state.historia_editando
-        )
-else:
-    with st.sidebar:
-        with st.expander("➕ Adicionar Nova História", expanded=True):
-            mostrar_formulario_historia("Nova História")
-
-# Conteúdo principal
-if st.session_state.indice.historias:
-    # Mostra informações básicas
-    st.sidebar.subheader("📊 Informações")
-    total_historias = len(st.session_state.indice.historias)
-    st.sidebar.write(f"📚 **Total de Histórias:** {total_historias}")
-
-    # Contagem total de palavras em todas as histórias
-    total_palavras = sum(len(hist['Tokens individuais']) for hist in st.session_state.indice.historias.values())
-    st.sidebar.write(f"📝 **Total de Palavras:** {total_palavras}")
-
-    # Contagem de palavras únicas
-    todas_palavras = []
-    for hist in st.session_state.indice.historias.values():
-        todas_palavras.extend(hist['Tokens individuais'].values())
-
-    palavras_unicas = len(set(todas_palavras))
-    st.sidebar.write(f"🔤 **Palavras Únicas:** {palavras_unicas}")
-
-    # Porcentagem de palavras únicas
-    if total_palavras > 0:
-        porcentagem_unicas = (palavras_unicas / total_palavras) * 100
-        st.sidebar.write(f"📊 **Taxa de Palavras Únicas:** {porcentagem_unicas:.1f}%")
-
-    # Mostra a lista de histórias
-    st.sidebar.subheader("📚 Histórias")
-    historias = list(st.session_state.indice.historias.items())
-
-    for idx, (hist_id, hist) in enumerate(historias):
-        col1, col2, col3 = st.sidebar.columns([3, 1, 1])
-        with col1:
-            if st.button(f"{hist['Nome']}", key=f"hist_{hist_id}", use_container_width=True):
-                st.session_state.historia_selecionada = hist_id
-        with col2:
-            if st.button("✏️", key=f"edit_{hist_id}", help=f"Editar '{hist['Nome']}'", use_container_width=True):
-                st.session_state.editando = True
-                st.session_state.historia_editando = hist_id
-                st.rerun()
-        with col3:
-            if st.button("🗑️", key=f"del_{hist_id}", help=f"Excluir '{hist['Nome']}'", type="secondary",
-                         use_container_width=True):
-                if st.session_state.indice.remover_historia(hist_id):
-                    st.sidebar.success(f"História '{hist['Nome']}' removida!")
-                    st.rerun()
-                else:
-                    st.sidebar.error("Erro ao remover a história")
-
-    # Seleciona uma história para visualizar
-    if st.session_state.indice.historias:
-        hist_id = st.selectbox(
-            "Selecione uma história para visualizar:",
-            options=list(st.session_state.indice.historias.keys()),
-            format_func=lambda x: f"{x}: {st.session_state.indice.historias[x]['Nome']}"
-        )
-    else:
-        st.warning("Nenhuma história disponível.")
-        st.stop()
-
-    if hist_id:
-        # Mostra o título da história com botão de exclusão
-        col1, col2 = st.columns([10, 1])
-        with col1:
-            st.header(st.session_state.indice.historias[hist_id]['Nome'])
-        with col2:
-            if st.button("🗑️", key=f"del_hist_{hist_id}", help="Excluir esta história", type="secondary"):
-                if st.session_state.indice.remover_historia(hist_id):
-                    st.success(f"História removida com sucesso!")
-                    st.rerun()
-                else:
-                    st.error("Erro ao remover a história")
-
-        # Mostra o JSON formatado manualmente para manter a ordem correta
-        historia = st.session_state.indice.historias[hist_id]
-        json_str = '{\n'
-        json_str += f'"índice":"{historia["índice"]}"\n'
-        json_str += f'"Nome":"{historia["Nome"]}"\n'
-        json_str += f'"total_tokens":{historia["total_tokens"]}\n'
-
-        # Adiciona os tokens em ordem
-        json_str += '"Tokens individuais":{\n'
-        tokens = []
-        for i in range(1, len(historia['Tokens individuais']) + 1):
+    def _tokenizar_texto(self, texto, hist_id):
+        """
+        Divide o texto em palavras, mantendo pontuação como tokens separados
+        e retorna um dicionário no formato solicitado, garantindo a ordem correta dos índices
+        
+        Args:
+            texto: Texto a ser tokenizado
+            hist_id: ID da história (obrigatório para gerar os índices)
+            
+        Returns:
+            Dicionário com 'tokens' (dicionário formatado) e 'total' (quantidade de tokens)
+        """
+        import re
+        # Limpa o texto mantendo pontuação
+        texto = texto.strip()
+        # Divide usando expressão regular para manter pontuação
+        tokens = re.findall(r'\w+|[.,!?"\-]+', texto)
+        
+        # Cria o dicionário de tokens formatados
+        tokens_formatados = {}
+        
+        # Garante que os índices estejam sempre em ordem sequencial
+        for i, token in enumerate(tokens, 1):
+            # Formato: "0,1", "0,2", etc.
             chave = f"{hist_id},{i}"
-            if chave in historia['Tokens individuais']:
-                tokens.append(f'"{chave}":"{historia["Tokens individuais"][chave]}"')
+            tokens_formatados[chave] = token
+            
+        return {
+            'tokens': tokens_formatados,
+            'total': len(tokens_formatados)
+        }
+    
+    def _salvar_indice(self):
+        """Salva o índice no arquivo JSON usando json.dump"""
+        with open(self.arquivo_indice, 'w', encoding='utf-8') as f:
+            json.dump(self.historias, f, ensure_ascii=False, indent=2)
+    
+    
+    def remover_historia(self, hist_id: str, reorganizar: bool = True) -> bool:
+        """
+        Remove uma história do índice
+        
+        Args:
+            hist_id: ID da história a ser removida
+            reorganizar: Se True, reorganiza os IDs após a remoção
+            
+        Returns:
+            bool: True se a história foi removida, False caso contrário
+        """
+        if hist_id in self.historias:
+            del self.historias[hist_id]
+            
+            # Reorganiza os IDs se necessário
+            if reorganizar and self.historias:  # Só reorganiza se ainda houver histórias
+                self._reorganizar_ids()
+            else:
+                self._salvar_indice()
+                
+            return True
+        return False
+    
+    def _reorganizar_ids(self):
+        """Reorganiza os IDs das histórias para serem sequenciais"""
+        if not self.historias:
+            return
+            
+        # Cria um novo dicionário com IDs sequenciais
+        novas_historias = {}
+        for novo_id, (_, hist) in enumerate(self.historias.items()):
+            novas_historias[str(novo_id)] = hist
+        
+        self.historias = novas_historias
+        self._salvar_indice()
+        return self.historias
+    
+    def _carregar_indice(self):
+        """Carrega o índice do arquivo JSON"""
+        try:
+            with open(self.arquivo_indice, 'r', encoding='utf-8') as f:
+                self.historias = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            # Se o arquivo não existir ou tiver erro, cria um novo
+            self.historias = {}
+    
+    def obter_historia_formatada(self, hist_id: str) -> str:
+        """
+        Retorna a história formatada de forma legível
+        
+        Args:
+            hist_id: ID da história a ser formatada
+            
+        Returns:
+            str: Texto formatado da história
+        """
+        if hist_id not in self.historias:
+            return "História não encontrada"
+            
+        historia = self.historias[hist_id]
+        tokens = historia['Tokens individuais']
+        
+        # Ordena os tokens pelo índice
+        tokens_ordenados = sorted(tokens.items(), key=lambda x: tuple(map(int, x[0].split(','))))
+        
+        # Junta as palavras em ordem
+        texto = ' '.join(palavra for _, palavra in tokens_ordenados)
+        
+        # Remove espaços antes de pontuação para melhor formatação
+        import re
+        texto = re.sub(r'\s+([.,!?;:])', r'\1', texto)
+        
+        return texto
+        
+    def obter_historia_para_edicao(self, hist_id: str) -> dict:
+        """
+        Retorna os dados da história em um formato adequado para edição
+        
+        Args:
+            hist_id: ID da história a ser editada
+            
+        Returns:
+            dict: Dicionário com 'titulo' e 'texto' da história
+        """
+        if hist_id not in self.historias:
+            return None
+            
+        historia = self.historias[hist_id]
+        texto_formatado = self.obter_historia_formatada(hist_id)
+        
+        return {
+            'titulo': historia['Nome'],
+            'texto': texto_formatado
+        }
+    
+    def atualizar_historia(self, hist_id: str, novo_titulo: str, novo_texto: str) -> bool:
+        """
+        Atualiza uma história existente garantindo a ordem correta dos índices (0,1, 0,2, 0,3, ...)
+        
+        Args:
+            hist_id: ID da história a ser atualizada
+            novo_titulo: Novo título da história
+            novo_texto: Novo texto da história
+            
+        Returns:
+            bool: True se a história foi atualizada com sucesso, False caso contrário
+        """
+        if hist_id not in self.historias:
+            return False
+            
+        # Remove a história para poder adicionar de volta
+        self.remover_historia(hist_id, reorganizar=False)
+        
+        # Adiciona a história novamente para garantir a ordem correta dos índices
+        resultado_tokenizacao = self._tokenizar_texto(novo_texto, hist_id)
+        
+        # Atualiza a história mantendo o ID original
+        self.historias[hist_id] = {
+            "índice": hist_id,
+            "Nome": novo_titulo.strip(),
+            "total_tokens": resultado_tokenizacao['total'],
+            "Tokens individuais": resultado_tokenizacao['tokens']
+        }
+        
+        self._salvar_indice()
+        return True
 
-        json_str += '\n'.join(tokens)
-        json_str += '\n}\n}'
-
-        st.code(json_str, language='json')
-
-        # Estatísticas da história atual
-        st.subheader("📊 Estatísticas da História")
-        historia = st.session_state.indice.historias[hist_id]
-        tokens = list(historia['Tokens individuais'].values())
-        total_palavras = len(tokens)
-        palavras_unicas = len(set(tokens))
-        palavras_repetidas = total_palavras - palavras_unicas
-
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Total de palavras", total_palavras)
-        with col2:
-            st.metric("Palavras únicas", palavras_unicas)
-        with col3:
-            st.metric("Palavras repetidas", palavras_repetidas)
-
-        # Palavras mais comuns
-        contagem_palavras = defaultdict(int)
-        for palavra in tokens:
-            contagem_palavras[palavra] += 1
-
-        palavras_comuns = sorted(contagem_palavras.items(), key=lambda x: x[1], reverse=True)[:10]
-
-        st.subheader("🔠 Palavras mais comuns")
-        for palavra, contagem in palavras_comuns:
-            st.write(f"- {palavra}: {contagem} ocorrência{'s' if contagem > 1 else ''}")
-
-        # Estatísticas gerais de todas as histórias
-        st.subheader("📊 Estatísticas Gerais")
-        todas_as_palavras = []
-        for hist in st.session_state.indice.historias.values():
-            todas_as_palavras.extend(hist['Tokens individuais'].values())
-
-        if len(st.session_state.indice.historias) > 1:
-            total_geral = len(todas_as_palavras)
-            unicas_geral = len(set(todas_as_palavras))
-            repetidas_geral = total_geral - unicas_geral
-
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Total geral de palavras", total_geral)
-            with col2:
-                st.metric("Palavras únicas totais", unicas_geral)
-            with col3:
-                st.metric("Palavras repetidas totais", repetidas_geral)
-
-            # Palavras mais comuns em todas as histórias
-            contagem_geral = defaultdict(int)
-            for palavra in todas_as_palavras:
-                contagem_geral[palavra] += 1
-
-            palavras_comuns_geral = sorted(contagem_geral.items(), key=lambda x: x[1], reverse=True)[:10]
-
-            st.subheader("🔠 Palavras mais comuns (todas as histórias)")
-            for palavra, contagem in palavras_comuns_geral:
-                st.write(f"- {palavra}: {contagem} ocorrência{'s' if contagem > 1 else ''}")
-
-        # Botão para exportar os dados
-        st.download_button(
-            label="📥 Exportar Dados",
-            data=json.dumps(st.session_state.indice.historias, ensure_ascii=False, indent=2),
-            file_name=f"indice_historias_{hist_id}.json",
-            mime="application/json"
-        )
-else:
-    st.info("Nenhuma história disponível. Adicione uma história usando o painel lateral.")
+# Exemplo de uso
+if __name__ == "__main__":
+    # Cria ou carrega o índice
+    indice = IndiceSequencial()
+    
+    # Texto de exemplo
+    texto = """Havia uma árvore muito especial em um jardim encantado. Ela era conhecida como a Árvore dos Desejos.
+    Cada vez que alguém passava por ela e fazia um desejo sincero, a árvore fazia um milagre acontecer."""
+    
+    # Adiciona a história
+    hist_id = indice.adicionar_historia("O segredo da Árvore Mágica", texto)
+    
+    # Mostra a história formatada
+    print(indice.obter_historia_formatada(hist_id))
+    
+    # Mostra o JSON gerado
+    print("\nVersão JSON:")
 

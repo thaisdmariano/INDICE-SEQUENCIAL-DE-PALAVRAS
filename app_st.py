@@ -230,3 +230,4 @@ if st.session_state.indice.historias:
         )
 else:
     st.info("Nenhuma história disponível. Adicione uma história usando o painel lateral.")
+

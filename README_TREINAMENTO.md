@@ -84,7 +84,9 @@ Este projeto é uma colaboração entre:
 - **Canvas**: Interface gráfica e experiência do usuário
 - **Cascade**: Implementação da lógica de treinamento e rede neural
 
-Todos os contribuidores são bem-vindos para sugerir melhorias ou correções no projeto.
+## Aplicativo
+
+https://indice-sequencial-de-palavras-t.streamlit.app/
 
 ## Licença
 

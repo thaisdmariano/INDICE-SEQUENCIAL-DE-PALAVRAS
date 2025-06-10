@@ -346,8 +346,6 @@ A0.40 mulher0.41 é0.42 iluminada0.43 .0.44
 
 ---
 
-🚀 **INSEPA - Preservando o significado das palavras, uma sequência de cada vez.**  
-
 ## Resumo:
 
 
@@ -364,6 +362,10 @@ A0.40 mulher0.41 é0.42 iluminada0.43 .0.44
 - **Chaves Fantasma** são únicas e não se repetem, distinguindo-se por não terem elementos idênticos em outras sequências.
 - **Fatores de Abertura**, **Subfatores** e **Fatores F** definem as características das sequências e só podem ser ativados pelas respectivas chaves.
 - **Pontuações Finalizadoras** indicam o encerramento de uma sequência, enquanto **Pontuações Ativadoras** expressam continuidade ou emoção sem finalizar o trecho.
+
+
+
+🚀 **INSEPA - Preservando o significado das palavras, uma sequência de cada vez.**  
 
 
 ## Site oficial:

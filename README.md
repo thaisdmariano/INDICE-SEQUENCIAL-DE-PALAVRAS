@@ -116,7 +116,7 @@ Assim a máquina consegue fazer as diferenciações de contexto, sem o uso de c�
 
 ## Site oficial:
 
-https://tokenizador666.my.canva.site/indicesequencialdepalavras
+https://insepacode.my.canva.site/insepa
 
 ## Aplicativo:
 
@@ -135,7 +135,7 @@ Este projeto é uma colaboração entre:
 
 - **Lux Burnns (Thaís D' Mariano)**: Criação do conceito, desenvolvimento inicial e coordenadora do projeto
 - **Canvas**: Interface gráfica e experiência do usuário
-- **Cascade**: Implementação da lógica de treinamento e rede neural
+- **Cascade e Copilot**: Implementação da lógica de treinamento e rede neural
 
 
 ## Licença

@@ -314,9 +314,7 @@ E assim por diante para as demais sequências.
 ---
 
 🚀 **INSEPA - Preservando o significado das palavras, uma sequência de cada vez.**  
-```
 
----
 
 
 ## Site oficial:

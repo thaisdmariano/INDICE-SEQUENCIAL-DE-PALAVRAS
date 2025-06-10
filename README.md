@@ -177,10 +177,18 @@ O INSEPA se fundamenta em 6 princípios que auxiliam na extração e organizaç�
   - Respeitam a hierarquia, mas identificam conceitos únicos não encontrados em outras sequências.
 - **Exemplo Complexo do Sol:**  
   ```plaintext
-  Sequência 4: 0.18, 0.19  
-  Sequência 5: 0.25, 0.26  
-  Sequência 7: 0.35, 0.36  
-  Sequência 8: 0.40, 0.41
+  Sequência: 4
+  Chave Fantasma: 0.18, 0.19
+  Palavras: "O mundo"
+  Sequência: 5
+  Chave Fantasma: 0.25, 0.26
+  Palavras: "As estrelas"
+  Sequência: 7
+  Chave Fantasmas: 0.35, 0.36
+  Palavras: "Um homem"
+  Sequência: 8
+  Chave Fantasma: 0.40, 0.41
+  Palavras: "A mulher"
   ```
   Essas combinações surgem apenas uma vez, formando um conjunto único.
 
@@ -219,10 +227,18 @@ Os fatores definem as características adicionais de cada sequência e só podem
 - **Definição:** Como as **Chaves Fantasma** são únicas, elas exigem um fator próprio – o **Fator F**.  
 - **Exemplo no Sol:**  
   ```plaintext
-  Sequência 4: Fator F composto por 0.20, 0.21  
-  Sequência 5: Fator F composto por 0.27, 0.28  
-  Sequência 7: Fator F composto por 0.37, 0.38  
-  Sequência 8: Fator F composto por 0.42, 0.43
+  Sequência: 4
+  Fator F: 0.20, 0.21, 0.22, 0.23
+  Palavras: "é azul e verde"
+  Sequência: 5:
+  Fator F: 0.27, 0.28
+  Palavras: "são brilhantes"
+  Sequência: 7
+  Fator F: 0.37, 0.38
+  Palavras: "é brilhante"
+  Sequência: 8
+  Fator F : 0.42, 0.43
+  Palavras: "é iluminada"
   ```
 - **Resumo:**  
   - Sempre segue uma Chave Fantasma, mantendo seu próprio contexto singular.  

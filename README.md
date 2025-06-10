@@ -311,7 +311,45 @@ E assim por diante para as demais sequências.
 
 ---
 
-## RESUMO
+
+## 🖤 Exemplo Completo & Mapeamento
+
+```text
+O 0.1 sol0.2 é0.3 amarelo0.4 .0.5  
+O0.6 sol0.7 queima0.8 a0.9 pele0.10 .0.11  
+O0.12 sol0.13 aquece0.14 o0.15 mundo0.16 .0.17  
+O 0.18 mundo0.19 é0.20 azul0.21 e0.22 verde0.23 .0.24  
+As0.25 estrelas0.26 são0.27 brilhantes0.28 .0.29  
+O0.30 Sol0.31 é0.32 brilhante0.33 .0.34  
+Um0.35 homem0.36 é0.37 brilhante0.38 .0.39  
+A0.40 mulher0.41 é0.42 iluminada0.43 .0.44
+```
+
+| Segmento                                 | Tipo                   | Índices                    | Contexto                         |
+|------------------------------------------|------------------------|----------------------------|----------------------------------|
+| `[O 0.1 sol 0.2]`                         | Chave de Entrada       | O→0.1 | sol→0.2             | —                                |
+| `[é 0.3 amarelo 0.4] .0.5`                | Fator de Abertura      | é→0.3 | amarelo→0.4         | **Cor do Sol**                   |
+| `[O 0.6 sol 0.7]`                         | Chave de Entrada       | O→0.6 | sol→0.7             | —                                |
+| `[queima 0.8 a 0.9 pele 0.10] .0.11`      | Fator de Abertura      | queima→0.8 | …                  | **Perigo ligado ao sol**         |
+| `[O 0.12 sol 0.13]`                       | Chave de Entrada       | O→0.12 | sol→0.13           | —                                |
+| `[aquece 0.14 o 0.15 mundo 0.16] .0.17`   | Fator de Abertura      | aquece→0.14 | …                  | **Sol e mundo**                  |
+| `[O 0.18 mundo 0.19]`                     | Chave Fantasma         | O→0.18 | mundo→0.19         | —                                |
+| `[é 0.20 azul 0.21 e 0.22 verde 0.23] .0.24` | Fator F              | é→0.20 | …                  | **Cores do mundo**               |
+| `[As 0.25 estrelas 0.26]`                 | Chave Fantasma         | As→0.25 | estrelas→0.26     | —                                |
+| `[são 0.27 brilhantes 0.28] .0.29`        | Fator F                | são→0.27 | …                  | **Brilho das estrelas**          |
+| `[O 0.30 Sol 0.31]`                       | Chave de Entrada       | O→0.30 | Sol→0.31           | —                                |
+| `[é 0.32 brilhante 0.33] .0.34`           | Fator de Abertura      | é→0.32 | brilhante→0.33    | **Brilho do Sol**                |
+| `[Um 0.35 homem 0.36]`                    | Chave Fantasma         | Um→0.35 | homem→0.36         | —                                |
+| `[é 0.37 brilhante 0.38] .0.39`           | Fator F                | é→0.37 | …                  | **Característica do homem**      |
+| `[A 0.40 mulher 0.41]`                    | Chave Fantasma         | A→0.40 | mulher→0.41       | —                                |
+| `[é 0.42 iluminada 0.43] .0.44`           | Fator F                | é→0.42 | …                  | **Característica da mulher**     |
+
+---
+
+🚀 **INSEPA - Preservando o significado das palavras, uma sequência de cada vez.**  
+
+## Resumo:
+
 
 - **O INSEPA** é mais do que um sistema de indexação – é um livro digital que une a **linguagem natural** à **matemática** para entender e preservar o contexto de um conteúdo.
 - **Índices Mãe** são os títulos que nomeiam os conteúdos (ex.: "O Sol e o Mundo").
@@ -326,11 +364,6 @@ E assim por diante para as demais sequências.
 - **Chaves Fantasma** são únicas e não se repetem, distinguindo-se por não terem elementos idênticos em outras sequências.
 - **Fatores de Abertura**, **Subfatores** e **Fatores F** definem as características das sequências e só podem ser ativados pelas respectivas chaves.
 - **Pontuações Finalizadoras** indicam o encerramento de uma sequência, enquanto **Pontuações Ativadoras** expressam continuidade ou emoção sem finalizar o trecho.
-
----
-
-🚀 **INSEPA - Preservando o significado das palavras, uma sequência de cada vez.**  
-
 
 
 ## Site oficial:
